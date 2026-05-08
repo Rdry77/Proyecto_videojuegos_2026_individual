@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://d4dwvo8p8ejws" path="res://scenes/player.tscn" id="2_4tcl0"]
 [ext_resource type="Texture2D" uid="uid://dcjun04thf2rn" path="res://assets/images/Tilemap/foreground4.png" id="3_2r1tl"]
 [ext_resource type="Texture2D" uid="uid://cyedb6wfmrrvj" path="res://assets/images/Tilemap/foreground2.png" id="3_bfxgj"]
+[ext_resource type="PackedScene" uid="uid://dxolpbdy47u1a" path="res://scenes/enemy.tscn" id="6_1seuy"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_dywbp"]
 
@@ -223,3 +224,6 @@ position = Vector2(84.666664, 97.33331)
 
 [node name="Boquilla" type="Marker2D" parent="Player" unique_id=53689539]
 position = Vector2(180.66667, -44.666626)
+
+[node name="Enemy" parent="." unique_id=290546294 instance=ExtResource("6_1seuy")]
+position = Vector2(1059, 580)

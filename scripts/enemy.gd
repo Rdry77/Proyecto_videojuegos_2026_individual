@@ -32,9 +32,12 @@ func _physics_process(delta: float) -> void:
 		"EMBESTIDA":
 			logica_embestida(delta)
 		"AIR_ATTACK":
-			pass
+			logica_picado_aereo()
 		"PRE_JUMP":
-			pass
+			# Mientras sube, frenamos un poco el movimiento horizontal
+			velocity.x = move_toward(velocity.x, 0, 5.0)
+			if velocity.y > 0: # Si empieza a caer y no ha atacado, vuelve a normal
+				current_state = "NORMAL"
 
 	move_and_slide()
 	gestionar_animaciones()
@@ -128,6 +131,31 @@ func logica_embestida(_delta: float):
 		
 	if is_on_wall(): 
 		finalizar_ataque()
+
+func logica_picado_aereo():
+	# 1. Si toca el suelo antes de alcanzar al Player, el ataque termina
+	if is_on_floor():
+		finalizar_ataque()
+		return
+
+	if player:
+		var distancia = global_position.distance_to(player.global_position)
+		
+		# 2. CAMBIO DE ANIMACIÓN POR CERCANÍA
+		# Solo si está a menos de 150 píxeles (puedes ajustar este número)
+		if distancia < 150.0:
+			if animated_sprite_2d.animation != "attackEnemy":
+				animated_sprite_2d.play("attackEnemy")
+				print("¡Enemigo lo suficientemente cerca, iniciando animación de ataque!")
+
+	# 3. DETECCIÓN DE COLISIÓN (DAÑO)
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		if collision.get_collider().name == "Player" and not strike_done:
+			print("¡EL PLAYER RECIBIÓ IMPACTO DIAGONAL!")
+			strike_done = true
+			# Opcional: puedes hacer que el ataque termine justo al golpear
+			# finalizar_ataque()
 		
 func finalizar_ataque():
 	current_state = "NORMAL"
