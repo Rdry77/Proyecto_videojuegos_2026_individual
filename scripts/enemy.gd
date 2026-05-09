@@ -83,7 +83,7 @@ func iniciar_embestida_tierra():
 		strike_done = false
 		print("¡Enemigo inicia embestida terrestre!")
 		
-	
+
 func iniciar_ataque_aereo():
 	if not is_on_floor(): return
 	current_state = "PRE_JUMP"
