@@ -103,15 +103,32 @@ animations = [{
 radius = 94.0
 height = 296.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_jej6c"]
+radius = 39.59798
+
 [node name="Player" type="CharacterBody2D" unique_id=956156386]
 scale = Vector2(0.5, 0.5)
 script = ExtResource("1_fjrip")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1216009040]
 sprite_frames = SubResource("SpriteFrames_3v2ag")
-animation = &"attackDiag"
+animation = &"fall"
 autoplay = "run-r"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=882817251]
 position = Vector2(2, 0)
 shape = SubResource("CapsuleShape2D_fjrip")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1093624117]
+limit_left = 0
+limit_top = 90
+limit_right = 4700
+limit_bottom = 600
+
+[node name="AtaqueArea" type="Area2D" parent="." unique_id=632622671]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AtaqueArea" unique_id=2043205693]
+position = Vector2(178, 10)
+shape = SubResource("CircleShape2D_jej6c")
+
+[connection signal="body_entered" from="AtaqueArea" to="." method="_on_ataque_area_body_entered"]
