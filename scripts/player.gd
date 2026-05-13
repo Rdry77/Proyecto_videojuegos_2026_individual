@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+@onready var ataque_area_collision: CollisionShape2D = $AtaqueArea/CollisionShape2D
+
 # --- REFERENCIAS Y ESCENAS ---
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var boquilla: Marker2D = $Boquilla 
@@ -89,6 +91,9 @@ func ejecutar_ataque():
 	is_attacking = true
 	var dir = -1 if animated_sprite_2d.flip_h else 1
 	
+	# ACTIVAR DAÑO
+	ataque_area_collision.disabled = false 
+	
 	if not is_on_floor():
 		# --- ATAQUE DIAGONAL ---
 		animated_sprite_2d.play("attackDiag")
@@ -98,6 +103,10 @@ func ejecutar_ataque():
 		# --- ATAQUE NORMAL ---
 		animated_sprite_2d.play("attack")
 		velocity.x = dir * ATTACK_IMPULSE
+	
+	# Temporizador para apagar el área (ajusta el tiempo a la duración de tu animación)
+	await get_tree().create_timer(0.3).timeout
+	ataque_area_collision.disabled = true
 
 func disparar():
 	var nueva_bala = BALA_SCENE.instantiate()
