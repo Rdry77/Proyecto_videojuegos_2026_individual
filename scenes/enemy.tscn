@@ -1,14 +1,16 @@
-[gd_scene format=3 uid="uid://dxolpbdy47u1a"]
+[gd_scene format=3 uid="uid://d0jdgx1smghtl"]
 
 [ext_resource type="Texture2D" uid="uid://dk8cxsfvdxwki" path="res://assets/images/Enemys/enemyRunL.png" id="1_5uy6h"]
-[ext_resource type="Script" uid="uid://kx7gdcmi6ubu" path="res://scripts/enemy.gd" id="1_xwavj"]
+[ext_resource type="Script" uid="uid://c0j3k2iyr64l5" path="res://scripts/enemy.gd" id="1_xwavj"]
 [ext_resource type="Texture2D" uid="uid://dmuca3alcnctk" path="res://assets/images/Enemys/enemyRunL2.png" id="2_c4w8v"]
 [ext_resource type="Texture2D" uid="uid://c6wi3br4m77k8" path="res://assets/images/Enemys/attackEnemy6.png" id="2_md484"]
 [ext_resource type="Texture2D" uid="uid://b2q517ffgm8mv" path="res://assets/images/Enemys/attackEnemy3.png" id="2_nenq2"]
 [ext_resource type="Texture2D" uid="uid://b5r2t5sn5b270" path="res://assets/images/Enemys/enemyRunL3.png" id="3_xwavj"]
 [ext_resource type="Texture2D" uid="uid://ctl4yjn56bem6" path="res://assets/images/Enemys/attackEnemy4.png" id="4_ipns3"]
 [ext_resource type="Texture2D" uid="uid://cptxs8byhoyeq" path="res://assets/images/Enemys/EnemyStatic.png" id="4_nenq2"]
+[ext_resource type="Texture2D" uid="uid://bfenrqxgtwt1" path="res://assets/images/Enemys/enemyH.png" id="5_8qclf"]
 [ext_resource type="Texture2D" uid="uid://b0gbmok67h1qv" path="res://assets/images/Enemys/enemyJump.png" id="5_ipns3"]
+[ext_resource type="Texture2D" uid="uid://bq084tdusdesk" path="res://assets/images/Enemys/enemyLose.png" id="7_w8i8w"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_md484"]
 animations = [{
@@ -28,10 +30,26 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("5_8qclf")
+}],
+"loop": true,
+"name": &"enemyH",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("5_ipns3")
 }],
 "loop": false,
 "name": &"enemyJump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_w8i8w")
+}],
+"loop": true,
+"name": &"enemyLose",
 "speed": 5.0
 }, {
 "frames": [{
@@ -61,14 +79,14 @@ animations = [{
 radius = 44.0
 height = 144.0
 
-[node name="Enemy" type="CharacterBody2D" unique_id=290546294]
+[node name="Enemy" type="CharacterBody2D" unique_id=290546294 groups=["enemigos"]]
 script = ExtResource("1_xwavj")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1890717265]
 position = Vector2(0, -1)
 scale = Vector2(0.71405226, 0.48367694)
 sprite_frames = SubResource("SpriteFrames_md484")
-animation = &"attackEnemy"
+animation = &"enemyLose"
 autoplay = "enemyRun"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=638498944]
