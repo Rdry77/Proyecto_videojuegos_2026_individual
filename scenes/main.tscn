@@ -1,7 +1,230 @@
 [gd_scene format=3 uid="uid://bb2ehgw8fsmjn"]
 
 [ext_resource type="PackedScene" uid="uid://dys2sk0q58lua" path="res://scenes/levels/level1.tscn" id="2_0wfyh"]
+[ext_resource type="Texture2D" uid="uid://blfmmacv2ben7" path="res://assets/images/backgrounds/barraVida.png" id="2_sugp2"]
+[ext_resource type="Texture2D" uid="uid://o81gps3pgqjl" path="res://assets/images/mainEnemy/mainEnemyC.png" id="3_sugp2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o5qli"]
+bg_color = Color(0.6286033, 0, 0.11024318, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0wfyh"]
+bg_color = Color(0.1884909, 0.72057736, 3.85046e-07, 1)
+
+[sub_resource type="FontFile" id="FontFile_o5qli"]
+cache/0/variation_coordinates = {}
+cache/0/face_index = 0
+cache/0/embolden = 0.0
+cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
+cache/0/spacing_top = 0
+cache/0/spacing_bottom = 0
+cache/0/spacing_space = 0
+cache/0/spacing_glyph = 0
+cache/0/baseline_offset = 0.0
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/45/0/ascent = 0.0
+cache/0/45/0/descent = 0.0
+cache/0/45/0/underline_position = 0.0
+cache/0/45/0/underline_thickness = 0.0
+cache/0/45/0/scale = 1.0
+cache/0/17/0/ascent = 0.0
+cache/0/17/0/descent = 0.0
+cache/0/17/0/underline_position = 0.0
+cache/0/17/0/underline_thickness = 0.0
+cache/0/17/0/scale = 1.0
+cache/0/18/0/ascent = 0.0
+cache/0/18/0/descent = 0.0
+cache/0/18/0/underline_position = 0.0
+cache/0/18/0/underline_thickness = 0.0
+cache/0/18/0/scale = 1.0
+cache/0/19/0/ascent = 0.0
+cache/0/19/0/descent = 0.0
+cache/0/19/0/underline_position = 0.0
+cache/0/19/0/underline_thickness = 0.0
+cache/0/19/0/scale = 1.0
+cache/0/20/0/ascent = 0.0
+cache/0/20/0/descent = 0.0
+cache/0/20/0/underline_position = 0.0
+cache/0/20/0/underline_thickness = 0.0
+cache/0/20/0/scale = 1.0
+cache/0/21/0/ascent = 0.0
+cache/0/21/0/descent = 0.0
+cache/0/21/0/underline_position = 0.0
+cache/0/21/0/underline_thickness = 0.0
+cache/0/21/0/scale = 1.0
+cache/0/22/0/ascent = 0.0
+cache/0/22/0/descent = 0.0
+cache/0/22/0/underline_position = 0.0
+cache/0/22/0/underline_thickness = 0.0
+cache/0/22/0/scale = 1.0
+cache/0/23/0/ascent = 0.0
+cache/0/23/0/descent = 0.0
+cache/0/23/0/underline_position = 0.0
+cache/0/23/0/underline_thickness = 0.0
+cache/0/23/0/scale = 1.0
+cache/0/24/0/ascent = 0.0
+cache/0/24/0/descent = 0.0
+cache/0/24/0/underline_position = 0.0
+cache/0/24/0/underline_thickness = 0.0
+cache/0/24/0/scale = 1.0
+cache/0/25/0/ascent = 0.0
+cache/0/25/0/descent = 0.0
+cache/0/25/0/underline_position = 0.0
+cache/0/25/0/underline_thickness = 0.0
+cache/0/25/0/scale = 1.0
+cache/0/26/0/ascent = 0.0
+cache/0/26/0/descent = 0.0
+cache/0/26/0/underline_position = 0.0
+cache/0/26/0/underline_thickness = 0.0
+cache/0/26/0/scale = 1.0
+cache/0/27/0/ascent = 0.0
+cache/0/27/0/descent = 0.0
+cache/0/27/0/underline_position = 0.0
+cache/0/27/0/underline_thickness = 0.0
+cache/0/27/0/scale = 1.0
+cache/0/28/0/ascent = 0.0
+cache/0/28/0/descent = 0.0
+cache/0/28/0/underline_position = 0.0
+cache/0/28/0/underline_thickness = 0.0
+cache/0/28/0/scale = 1.0
+cache/0/29/0/ascent = 0.0
+cache/0/29/0/descent = 0.0
+cache/0/29/0/underline_position = 0.0
+cache/0/29/0/underline_thickness = 0.0
+cache/0/29/0/scale = 1.0
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/31/0/ascent = 0.0
+cache/0/31/0/descent = 0.0
+cache/0/31/0/underline_position = 0.0
+cache/0/31/0/underline_thickness = 0.0
+cache/0/31/0/scale = 1.0
+cache/0/32/0/ascent = 0.0
+cache/0/32/0/descent = 0.0
+cache/0/32/0/underline_position = 0.0
+cache/0/32/0/underline_thickness = 0.0
+cache/0/32/0/scale = 1.0
+cache/0/33/0/ascent = 0.0
+cache/0/33/0/descent = 0.0
+cache/0/33/0/underline_position = 0.0
+cache/0/33/0/underline_thickness = 0.0
+cache/0/33/0/scale = 1.0
+cache/0/34/0/ascent = 0.0
+cache/0/34/0/descent = 0.0
+cache/0/34/0/underline_position = 0.0
+cache/0/34/0/underline_thickness = 0.0
+cache/0/34/0/scale = 1.0
+cache/0/35/0/ascent = 0.0
+cache/0/35/0/descent = 0.0
+cache/0/35/0/underline_position = 0.0
+cache/0/35/0/underline_thickness = 0.0
+cache/0/35/0/scale = 1.0
+cache/0/36/0/ascent = 0.0
+cache/0/36/0/descent = 0.0
+cache/0/36/0/underline_position = 0.0
+cache/0/36/0/underline_thickness = 0.0
+cache/0/36/0/scale = 1.0
+cache/0/37/0/ascent = 0.0
+cache/0/37/0/descent = 0.0
+cache/0/37/0/underline_position = 0.0
+cache/0/37/0/underline_thickness = 0.0
+cache/0/37/0/scale = 1.0
+cache/0/38/0/ascent = 0.0
+cache/0/38/0/descent = 0.0
+cache/0/38/0/underline_position = 0.0
+cache/0/38/0/underline_thickness = 0.0
+cache/0/38/0/scale = 1.0
+cache/0/39/0/ascent = 0.0
+cache/0/39/0/descent = 0.0
+cache/0/39/0/underline_position = 0.0
+cache/0/39/0/underline_thickness = 0.0
+cache/0/39/0/scale = 1.0
+cache/0/40/0/ascent = 0.0
+cache/0/40/0/descent = 0.0
+cache/0/40/0/underline_position = 0.0
+cache/0/40/0/underline_thickness = 0.0
+cache/0/40/0/scale = 1.0
+cache/0/41/0/ascent = 0.0
+cache/0/41/0/descent = 0.0
+cache/0/41/0/underline_position = 0.0
+cache/0/41/0/underline_thickness = 0.0
+cache/0/41/0/scale = 1.0
+cache/0/42/0/ascent = 0.0
+cache/0/42/0/descent = 0.0
+cache/0/42/0/underline_position = 0.0
+cache/0/42/0/underline_thickness = 0.0
+cache/0/42/0/scale = 1.0
+cache/0/43/0/ascent = 0.0
+cache/0/43/0/descent = 0.0
+cache/0/43/0/underline_position = 0.0
+cache/0/43/0/underline_thickness = 0.0
+cache/0/43/0/scale = 1.0
+cache/0/44/0/ascent = 0.0
+cache/0/44/0/descent = 0.0
+cache/0/44/0/underline_position = 0.0
+cache/0/44/0/underline_thickness = 0.0
+cache/0/44/0/scale = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sugp2"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
 
 [node name="Main" type="Node2D" unique_id=1793009466]
 
 [node name="rootLevel" parent="." unique_id=570665955 instance=ExtResource("2_0wfyh")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1617178566]
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer" unique_id=902709337]
+offset_left = 156.0
+offset_top = 38.0
+offset_right = 368.0
+offset_bottom = 65.0
+theme_override_styles/background = SubResource("StyleBoxFlat_o5qli")
+theme_override_styles/fill = SubResource("StyleBoxFlat_0wfyh")
+max_value = 5.0
+value = 5.0
+
+[node name="GameOverLabel" type="Label" parent="CanvasLayer" unique_id=1717544539]
+offset_left = 415.0
+offset_top = 345.0
+offset_right = 816.0
+offset_bottom = 406.0
+theme_override_fonts/font = SubResource("FontFile_o5qli")
+theme_override_font_sizes/font_size = 45
+text = "JUEGO TERMINADO"
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer" unique_id=1508596714]
+position = Vector2(233.85936, 53)
+scale = Vector2(0.112833634, 0.108646326)
+texture = ExtResource("2_sugp2")
+
+[node name="PanelDialogo" type="Panel" parent="CanvasLayer" unique_id=647677165]
+offset_left = 201.0
+offset_top = 523.0
+offset_right = 938.0
+offset_bottom = 665.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_sugp2")
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/PanelDialogo" unique_id=475401060]
+position = Vector2(606, -80.875)
+scale = Vector2(0.39442232, 0.34743038)
+texture = ExtResource("3_sugp2")
+
+[node name="TextoDialogo" type="Label" parent="CanvasLayer" unique_id=1748257129]
+offset_left = 245.0
+offset_top = 535.0
+offset_right = 285.0
+offset_bottom = 558.0
+
+[node name="TimerDialogo" type="Timer" parent="CanvasLayer" unique_id=281491864]
