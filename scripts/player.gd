@@ -35,6 +35,18 @@ const DIAGONAL_IMPULSE_Y = 600.0 # Fuerza hacia abajo
 # --- VARIABLES DE ESTADO ---
 var is_attacking = false
 
+func _ready():
+	# Inicializar barra
+	if health_bar:
+		health_bar.max_value = salud_max
+		health_bar.value = salud_actual
+	if game_over_label:
+		game_over_label.visible = false
+	# Nos aseguramos de que el área esté apagada al empezar
+	ataque_area_collision.disabled = true
+	
+	if panel_dialogo: panel_dialogo.visible = false
+
 func _physics_process(delta: float) -> void:
 	# --- GRAVEDAD ---
 	# No aplicamos gravedad extra mientras atacamos para no alterar el trayecto diagonal
