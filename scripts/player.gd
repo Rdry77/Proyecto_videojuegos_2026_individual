@@ -6,6 +6,24 @@ extends CharacterBody2D
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var boquilla: Marker2D = $Boquilla 
 
+# --- VARIABLES DE SALUD ---
+var salud_max = 5
+var salud_actual = 5
+@onready var health_bar: ProgressBar = get_tree().root.find_child("ProgressBar", true, false)
+@onready var game_over_label: Label = get_tree().root.find_child("GameOverLabel", true, false)
+
+# --- VARIABLES DE DIÁLOGO ---
+@onready var panel_dialogo = get_tree().root.find_child("PanelDialogo", true, false)
+@onready var label_texto = get_tree().root.find_child("TextoDialogo", true, false)
+
+var frases_finales = [
+	"¡Increíble! Has derrotado a todas las amenazas de este sector.",
+	"Pero no te confíes... esto es solo el principio de la invasión.",
+	"Prepárate, el verdadero desafío comienza ahora."
+]
+var indice_frase = 0
+var dialogo_activo = false
+
 const BALA_SCENE = preload("res://scenes/bullet.tscn") 
 
 # --- CONSTANTES DE MOVIMIENTO ---
