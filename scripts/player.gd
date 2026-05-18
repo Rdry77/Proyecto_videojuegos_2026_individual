@@ -184,3 +184,8 @@ func morir_player():
 		game_over_label.visible = true
 	
 	print("Game Over")
+	
+func _on_ataque_area_body_entered(body: Node2D) -> void:
+	if body.is_in_group("enemigos"):
+		print("¡EL PLAYER HA GOLPEADO AL ENEMIGO!")
+		# Aquí podrías llamar a una función del enemigo: body.recibir_daño(10)
