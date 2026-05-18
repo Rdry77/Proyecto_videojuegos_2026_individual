@@ -187,5 +187,6 @@ func morir_player():
 	
 func _on_ataque_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("enemigos"):
-		print("¡EL PLAYER HA GOLPEADO AL ENEMIGO!")
-		# Aquí podrías llamar a una función del enemigo: body.recibir_daño(10)
+		var dir_empuje = -1 if animated_sprite_2d.flip_h else 1
+		if body.has_method("recibir_golpe"):
+			body.recibir_golpe(dir_empuje)
