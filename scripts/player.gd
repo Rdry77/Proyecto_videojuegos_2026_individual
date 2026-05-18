@@ -34,6 +34,7 @@ const DIAGONAL_IMPULSE_Y = 600.0 # Fuerza hacia abajo
 
 # --- VARIABLES DE ESTADO ---
 var is_attacking = false
+var esta_cayendo = false
 
 func _ready():
 	# Inicializar barra
@@ -48,6 +49,11 @@ func _ready():
 	if panel_dialogo: panel_dialogo.visible = false
 
 func _physics_process(delta: float) -> void:
+	
+	if esta_cayendo:
+		move_and_slide() # Para que se aplique el empuje
+		return
+	
 	# --- GRAVEDAD ---
 	# No aplicamos gravedad extra mientras atacamos para no alterar el trayecto diagonal
 	if not is_on_floor() and not is_attacking:
@@ -93,6 +99,9 @@ func _physics_process(delta: float) -> void:
 	gestionar_animaciones()
 
 func gestionar_animaciones():
+	if esta_cayendo:
+		animated_sprite_2d.play("fall")
+		return # No procesa nada más mientras cae
 	# Prioridad de ataques
 	if is_attacking:
 		# Verificamos si cualquiera de las dos animaciones de ataque sigue activa
@@ -110,10 +119,11 @@ func gestionar_animaciones():
 		if velocity.x != 0:
 			animated_sprite_2d.play("run-r")
 		else:
-			animated_sprite_2d.play("static-r")
+			if esta_cayendo == false:
+				animated_sprite_2d.play("static-r")
 	else:
-		if animated_sprite_2d.animation != "jump":
-			animated_sprite_2d.play("static-r")
+		if animated_sprite_2d.animation != "jump" and esta_cayendo == false:
+			animated_sprite_2d.play("fall") # o static-r
 
 # --- FUNCIONES DE ACCIÓN ---
 
@@ -146,4 +156,9 @@ func disparar():
 	get_tree().root.add_child(nueva_bala)
 	
 func recibir_daño_enemigo(direccion_ataque_enemigo: float):
-	pass
+	if esta_cayendo or salud_actual <= 0: return
+	
+	esta_cayendo = true
+	
+	await get_tree().create_timer(0.6).timeout
+	esta_cayendo = false
