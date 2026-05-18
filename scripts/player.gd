@@ -158,7 +158,29 @@ func disparar():
 func recibir_daño_enemigo(direccion_ataque_enemigo: float):
 	if esta_cayendo or salud_actual <= 0: return
 	
+	# Reducir salud
+	salud_actual -= 1
+	if health_bar:
+		health_bar.value = salud_actual
+	
+	# Verificar muerte
+	if salud_actual <= 0:
+		morir_player()
+		return
+	
 	esta_cayendo = true
+	is_attacking = false
+	animated_sprite_2d.play("fall")
+	velocity.x = direccion_ataque_enemigo * 500.0
+	velocity.y = -300.0
 	
 	await get_tree().create_timer(0.6).timeout
 	esta_cayendo = false
+
+func morir_player():
+	esta_cayendo = true
+	animated_sprite_2d.play("fall") # O una animación de muerte si tienes
+	if game_over_label:
+		game_over_label.visible = true
+	
+	print("Game Over")
