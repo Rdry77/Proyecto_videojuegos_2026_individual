@@ -19,6 +19,11 @@ var turn_timer = 0.0
 var last_direction = -1
 var strike_done = false
 
+# --- VARIABLES DE VIDA
+var vida = 3
+var esta_herido = false
+var esta_muerto = false
+
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	if not is_on_floor() and current_state != "AIR_ATTACK":

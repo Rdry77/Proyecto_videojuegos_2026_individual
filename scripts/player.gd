@@ -144,3 +144,6 @@ func disparar():
 	nueva_bala.set_direction(dir)
 	nueva_bala.global_position = boquilla.global_position
 	get_tree().root.add_child(nueva_bala)
+	
+func recibir_daño_enemigo(direccion_ataque_enemigo: float):
+	pass
