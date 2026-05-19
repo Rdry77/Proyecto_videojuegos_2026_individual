@@ -208,8 +208,14 @@ func morir(direccion_ataque: float):
 	
 	await get_tree().create_timer(0.5).timeout
 	if enemigos_totales_creados < limite_enemigos:
-		print('Reaparecer enemigo')
+		reaparecer_enemigo()
 	queue_free()
+
+func reaparecer_enemigo():
+	var nuevo_enemigo = load(self.scene_file_path).instantiate()
+	nuevo_enemigo.global_position = Vector2(player.global_position.x + 1300, player.global_position.y - 50)
+	enemigos_totales_creados += 1
+	get_parent().add_child(nuevo_enemigo)
 
 func gestionar_animaciones():
 	# REGLA DE ORO: Si ya estamos reproduciendo el ataque, NO HACER NADA MÁS
