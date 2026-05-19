@@ -125,6 +125,26 @@ func gestionar_animaciones():
 		if animated_sprite_2d.animation != "jump" and esta_cayendo == false:
 			animated_sprite_2d.play("fall") # o static-r
 
+func iniciar_dialogo_final():
+	await get_tree().create_timer(1.5).timeout # Espera a que el enemigo caiga
+	panel_dialogo.visible = true
+	indice_frase = 0
+	dialogo_activo = true
+	mostrar_frase()
+	
+func mostrar_frase():
+	if indice_frase < frases_finales.size():
+		label_texto.text = frases_finales[indice_frase]
+	else:
+		finalizar_todo()
+		
+func finalizar_todo():
+	dialogo_activo = false
+	panel_dialogo.visible = false
+	label_texto.visible = false
+	print("Diálogo terminado. Fin del nivel.")
+
+
 # --- FUNCIONES DE ACCIÓN ---
 
 func ejecutar_ataque():
