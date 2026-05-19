@@ -140,6 +140,11 @@ func mostrar_frase():
 	else:
 		finalizar_todo()
 		
+func _input(event):
+	if dialogo_activo and event.is_action_pressed("leer"): # O la tecla que prefieras
+		indice_frase += 1
+		mostrar_frase()
+		
 func finalizar_todo():
 	dialogo_activo = false
 	panel_dialogo.visible = false
