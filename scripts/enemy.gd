@@ -24,6 +24,7 @@ var vida = 3
 var esta_herido = false
 var esta_muerto = false
 
+
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	if not is_on_floor() and current_state != "AIR_ATTACK":
@@ -35,7 +36,7 @@ func _physics_process(delta: float) -> void:
 			perseguir_con_retraso(delta)
 			controlar_temporizador_ataques(delta)
 		"EMBESTIDA":
-			logica_embestida(delta)
+			logica_embestida()
 		"AIR_ATTACK":
 			logica_picado_aereo()
 		"PRE_JUMP":
@@ -106,36 +107,40 @@ func iniciar_ataque_aereo():
 		last_direction = sign(target_dir.x)
 		print("¡PICADO DIAGONAL!")
 
-func logica_embestida(_delta: float):
+func logica_embestida():
 	if not player: return
 	
-	# 1. MOVIMIENTO: Si ya empezó la animación de ataque, frenamos un poco para que se vea el golpe
 	if animated_sprite_2d.animation == "attackEnemy":
 		velocity.x = move_toward(velocity.x, 0, 15.0)
 	else:
 		velocity.x = last_direction * SPEED_ATTACK
 	
-	# 2. DETECCIÓN POR DISTANCIA
 	var distancia = abs(player.global_position.x - global_position.x)
-	if distancia < 80.0: # Aumenté un poco el rango para dar tiempo a la animación
-		if animated_sprite_2d.animation != "attackEnemy":
-			animated_sprite_2d.play("attackEnemy")
-			print("¡Iniciando animación de ataque terrestre!")
-
-	# 3. DETECCIÓN POR COLISIÓN (DAÑO)
+	# Activar animación de ataque al estar cerca
+	if distancia < 100.0 and animated_sprite_2d.animation != "attackEnemy":
+		animated_sprite_2d.play("attackEnemy")
+	
+	# Detectar colisión con Player para terminar
 	for i in get_slide_collision_count():
-		var collision = get_slide_collision(i)
-		if collision.get_collider().name == "Player" and not strike_done:
-			print("¡COLISIÓN TERRESTRE! - Daño al Player detectado")
-			strike_done = true
+		var col = get_slide_collision(i)
+		if col.get_collider().name == "Player":
+			finalizar_ataque()
 	
 	# 4. CONDICIÓN DE FINALIZACIÓN CORREGIDA
 	# Solo finaliza si ya pasó el peligro y la animación terminó (o si no está atacando ya)
 	if animated_sprite_2d.animation == "attackEnemy" and not animated_sprite_2d.is_playing():
 		finalizar_ataque()
 		
-	if is_on_wall(): 
-		finalizar_ataque()
+	
+	for i in get_slide_collision_count():
+		var col = get_slide_collision(i)
+		var objeto = col.get_collider()
+		
+		if objeto.name == "Player":
+			if objeto.has_method("recibir_daño_enemigo"):
+				# Le pasamos 'last_direction' para saber hacia dónde empujarlo
+				objeto.recibir_daño_enemigo(last_direction)
+			finalizar_ataque()
 
 func logica_picado_aereo():
 	# 1. Si toca el suelo antes de alcanzar al Player, el ataque termina
