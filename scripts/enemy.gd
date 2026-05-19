@@ -23,7 +23,11 @@ var strike_done = false
 var vida = 3
 var esta_herido = false
 var esta_muerto = false
+static var enemigos_totales_creados = 1
+var limite_enemigos = 4
 
+func _init():
+	last_direction = -1.0
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -75,11 +79,13 @@ func perseguir_con_retraso(delta: float):
 func controlar_temporizador_ataques(delta: float):
 	attack_timer -= delta
 	if attack_timer <= 0:
-		var decision = randf()
-		if decision < 0.4:
-			iniciar_ataque_aereo()
-		elif decision < 0.7:
-			iniciar_embestida_tierra()
+		var dist_al_player = global_position.distance_to(player.global_position)
+		if dist_al_player < 800:
+			var decision = randf()
+			if decision < 0.4:
+				iniciar_ataque_aereo()
+			else:
+				iniciar_embestida_tierra()
 		
 		attack_timer = ATTACK_COOLDOWN
 
@@ -87,8 +93,7 @@ func iniciar_embestida_tierra():
 	if is_on_floor():
 		current_state = "EMBESTIDA"
 		strike_done = false
-		print("¡Enemigo inicia embestida terrestre!")
-		
+		animated_sprite_2d.play("enemyRun") 
 
 func iniciar_ataque_aereo():
 	if not is_on_floor(): return
@@ -105,7 +110,6 @@ func iniciar_ataque_aereo():
 		var target_dir = (player.global_position - global_position).normalized()
 		velocity = target_dir * SPEED_DIAGONAL
 		last_direction = sign(target_dir.x)
-		print("¡PICADO DIAGONAL!")
 
 func logica_embestida():
 	if not player: return
@@ -142,6 +146,7 @@ func logica_embestida():
 				objeto.recibir_daño_enemigo(last_direction)
 			finalizar_ataque()
 
+
 func logica_picado_aereo():
 	# 1. Si toca el suelo antes de alcanzar al Player, el ataque termina
 	if is_on_floor():
@@ -171,7 +176,13 @@ func finalizar_ataque():
 	current_state = "NORMAL"
 	attack_timer = ATTACK_COOLDOWN
 	
-	
+
+func recibir_golpe(direccion_ataque: float):
+	print('Enemigo ha recibido golpe')
+	vida = vida  - 1
+	if vida <= 0:
+		pass
+
 func gestionar_animaciones():
 	# REGLA DE ORO: Si ya estamos reproduciendo el ataque, NO HACER NADA MÁS
 	# Esto evita que 'enemyRun' o 'enemyStatic' interrumpan el golpe.
