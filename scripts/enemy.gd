@@ -178,10 +178,38 @@ func finalizar_ataque():
 	
 
 func recibir_golpe(direccion_ataque: float):
-	print('Enemigo ha recibido golpe')
-	vida = vida  - 1
+	vida -= 1
 	if vida <= 0:
-		pass
+		morir(direccion_ataque)
+		return
+	
+	esta_herido = true
+	velocity.y = -150.0
+	velocity.x = direccion_ataque * 600.0 
+	animated_sprite_2d.play("enemyH")
+	animated_sprite_2d.flip_h = (direccion_ataque == 1)
+	await get_tree().create_timer(0.4).timeout
+	esta_herido = false
+	current_state = "NORMAL"
+	last_direction = -sign(direccion_ataque) 
+
+func morir(direccion_ataque: float):
+	esta_muerto = true
+	velocity.x = direccion_ataque * 400.0
+	velocity.y = -200.0
+	animated_sprite_2d.play("enemyLose")
+	animated_sprite_2d.flip_h = (direccion_ataque == 1)
+	
+	# Si es el último enemigo, avisamos al sistema de diálogos
+	if enemigos_totales_creados == limite_enemigos:
+		# Buscamos el nodo que maneja los diálogos (usualmente el Player o un Manager)
+		if player and player.has_method("iniciar_dialogo_final"):
+			player.iniciar_dialogo_final()
+	
+	await get_tree().create_timer(0.5).timeout
+	if enemigos_totales_creados < limite_enemigos:
+		print('Reaparecer enemigo')
+	queue_free()
 
 func gestionar_animaciones():
 	# REGLA DE ORO: Si ya estamos reproduciendo el ataque, NO HACER NADA MÁS
