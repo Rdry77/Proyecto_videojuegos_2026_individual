@@ -218,13 +218,19 @@ func reaparecer_enemigo():
 	get_parent().add_child(nuevo_enemigo)
 
 func gestionar_animaciones():
-	# REGLA DE ORO: Si ya estamos reproduciendo el ataque, NO HACER NADA MÁS
-	# Esto evita que 'enemyRun' o 'enemyStatic' interrumpan el golpe.
+	if esta_muerto:
+		animated_sprite_2d.play("enemyLose")
+		return
+	
+	if esta_herido:
+		animated_sprite_2d.play("enemyH")
+		return
+	
 	if animated_sprite_2d.animation == "attackEnemy" and animated_sprite_2d.is_playing():
 		animated_sprite_2d.flip_h = (last_direction == -1)
 		return # <--- IMPORTANTE: Salimos de la función aquí
 
-	# REGLA 2: Si el estado es de ataque pero la animación no ha empezado, la forzamos
+	
 	if (current_state == "EMBESTIDA" or current_state == "AIR_ATTACK"):
 		var distancia = global_position.distance_to(player.global_position)
 		# Si ya estamos muy cerca, aseguramos que se quede en attackEnemy
@@ -234,18 +240,21 @@ func gestionar_animaciones():
 			animated_sprite_2d.flip_h = (last_direction == -1)
 			return
 
-	# REGLA 3: Si estamos en el aire (Picado), usamos el salto
 	if not is_on_floor():
 		animated_sprite_2d.play("enemyJump")
+		# Si el salto sale de espaldas, cambia '==' por '!='
 		animated_sprite_2d.flip_h = (last_direction == 1)
-	
-	# REGLA 4: Movimiento normal en suelo
 	else:
 		if abs(velocity.x) > 10:
 			animated_sprite_2d.play("enemyRun")
-			animated_sprite_2d.flip_h = (last_direction == 1)
-			# Velocidad de animación rápida en embestida
+			# USAMOS UNA LÓGICA DIFERENTE PARA CORRER
+			# Si 'last_direction == -1' (izquierda) lo hace correr de reversa, 
+			# cámbialo por 'last_direction == 1'
+			animated_sprite_2d.flip_h = (last_direction == 1) 
+			
 			animated_sprite_2d.speed_scale = 2.0 if current_state == "EMBESTIDA" else 1.0
 		else:
 			animated_sprite_2d.play("enemyStatic")
+			# Para que al estar quieto mire al último lado al que caminó
+			animated_sprite_2d.flip_h = (last_direction == 1)
 			animated_sprite_2d.speed_scale = 1.0
