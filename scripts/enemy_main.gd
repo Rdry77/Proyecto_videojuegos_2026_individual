@@ -13,6 +13,7 @@ extends CharacterBody2D
 
 # --- ESTADOS ---
 var current_state = "NORMAL"
+var attack_timer = 1.0
 var last_direction : float = -1.0 
 var esta_herido = false
 var esta_muerto = false
@@ -62,7 +63,14 @@ func logica_embestida():
 		finalizar_ataque()
 		
 func finalizar_ataque():
-	pass
+	current_state = "NORMAL"
+	attack_timer = ATTACK_COOLDOWN
 	
 func logica_picado_aereo():
-	pass 
+	if is_on_floor(): finalizar_ataque()
+	for i in get_slide_collision_count():
+		var col = get_slide_collision(i).get_collider()
+		if col.name == "Player":
+			if col.has_method("recibir_daño_enemigo"):
+				col.recibir_daño_enemigo(sign(velocity.x))
+			finalizar_ataque() 
