@@ -16,6 +16,8 @@ var salud_actual = 5
 @onready var panel_dialogo = get_tree().root.find_child("PanelDialogo", true, false)
 @onready var label_texto = get_tree().root.find_child("TextoDialogo", true, false)
 
+const ENEMY_MAIN_SCENE = preload("res://scenes/enemy_Main.tscn") 
+
 var frases_finales = [
 	"¡Increíble! Has derrotado a todas las amenazas de este sector.",
 	"Pero no te confíes... esto es solo el principio de la invasión.",
@@ -142,8 +144,15 @@ func finalizar_todo():
 	dialogo_activo = false
 	panel_dialogo.visible = false
 	label_texto.visible = false
-	print("Diálogo terminado. Fin del nivel.")
+	aparecer_jefe_final()
 
+func aparecer_jefe_final():
+	var jefe = ENEMY_MAIN_SCENE.instantiate()
+	# Lo posicionamos a la derecha del jugador
+	jefe.global_position = Vector2(global_position.x + 800, global_position.y - 100)
+	
+	# Añadirlo a la escena principal
+	get_parent().add_child(jefe)
 
 # --- FUNCIONES DE ACCIÓN ---
 
