@@ -14,6 +14,7 @@ extends CharacterBody2D
 # --- ESTADOS ---
 var current_state = "NORMAL"
 var attack_timer = 1.0
+var turn_timer = 0.0
 var last_direction : float = -1.0 
 var esta_herido = false
 var esta_muerto = false
@@ -46,21 +47,38 @@ func perseguir_veloz(delta: float):
 	if not player: return
 	var diff = player.global_position.x - global_position.x
 	var current_player_side = sign(diff)
+	
+	# Giro casi inmediato
+	if current_player_side != last_direction and current_player_side != 0:
+		turn_timer += delta
+		if turn_timer >= TURN_DELAY:
+			last_direction = current_player_side
+			turn_timer = 0.0
+	
 	velocity.x = last_direction * SPEED_NORMAL if abs(diff) > 40 else 0.0
 
 func controlar_temporizador_ataques(delta: float):
-	attack_timer -= 1.2
+	attack_timer -= delta
 	if attack_timer <= 0:
 		if global_position.distance_to(player.global_position) < 300:
-			iniciar_ataque_aereo()
+			if randf() < 0.6: iniciar_ataque_aereo()
+			else: iniciar_embestida_tierra()
+		attack_timer = ATTACK_COOLDOWN
 
 func iniciar_ataque_aereo():
 	if not is_on_floor(): return
-	current_state = "NORMAL"
-	velocity.y = -400.0
+	current_state = "PRE_JUMP"
+	velocity.y = JUMP_FORCE
 	await get_tree().create_timer(0.3).timeout
-	if player:
+	if player and current_state == "PRE_JUMP":
 		current_state = "AIR_ATTACK"
+		var target_dir = (player.global_position - global_position).normalized()
+		velocity = target_dir * SPEED_DIAGONAL
+		last_direction = sign(target_dir.x)
+
+func iniciar_embestida_tierra():
+	if is_on_floor():
+		current_state = "EMBESTIDA"
 
 func logica_embestida():
 	if not player: return
