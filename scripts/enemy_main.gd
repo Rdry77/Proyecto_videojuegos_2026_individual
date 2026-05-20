@@ -42,6 +42,7 @@ func _physics_process(delta: float) -> void:
 				if velocity.y > 0: current_state = "NORMAL"
 
 	move_and_slide()
+	gestionar_animaciones()
 
 func perseguir_veloz(delta: float):
 	if not player: return
@@ -113,3 +114,29 @@ func logica_picado_aereo():
 			if col.has_method("recibir_daño_enemigo"):
 				col.recibir_daño_enemigo(sign(velocity.x))
 			finalizar_ataque() 
+
+
+func gestionar_animaciones():
+	if esta_muerto or esta_herido: return
+
+	# --- LÓGICA DE ATAQUE ---
+	if animated_sprite_2d.animation == "attackEnemyMain" and animated_sprite_2d.is_playing():
+		# Si mira a la DERECHA originalmente:
+		# Para mirar a la IZQUIERDA (last_direction == -1), flip_h debe ser TRUE.
+		animated_sprite_2d.flip_h = (last_direction == -1) 
+		return 
+
+	# --- LÓGICA DE MOVIMIENTO ---
+	if not is_on_floor():
+		animated_sprite_2d.play("mainEnemyJump")
+		# Si salta mirando a la IZQUIERDA originalmente:
+		# Para mirar a la DERECHA (last_direction == 1), flip_h debe ser TRUE.
+		animated_sprite_2d.flip_h = (last_direction == 1) 
+	else:
+		if abs(velocity.x) > 10:
+			animated_sprite_2d.play("mainEnemyRun")
+			# Si corre mirando a la IZQUIERDA originalmente:
+			animated_sprite_2d.flip_h = (last_direction == 1) 
+		else:
+			animated_sprite_2d.play("mainEnemyStatic")
+			animated_sprite_2d.flip_h = (last_direction == 1)
