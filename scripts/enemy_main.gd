@@ -31,7 +31,8 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, 15.0)
 	else:
 		if current_state == "NORMAL":
-			pass
+			controlar_temporizador_ataques(delta)
+			perseguir_veloz(delta)
 		match current_state:
 			"EMBESTIDA": logica_embestida()
 			"AIR_ATTACK": logica_picado_aereo()
@@ -40,6 +41,26 @@ func _physics_process(delta: float) -> void:
 				if velocity.y > 0: current_state = "NORMAL"
 
 	move_and_slide()
+
+func perseguir_veloz(delta: float):
+	if not player: return
+	var diff = player.global_position.x - global_position.x
+	var current_player_side = sign(diff)
+	velocity.x = last_direction * SPEED_NORMAL if abs(diff) > 40 else 0.0
+
+func controlar_temporizador_ataques(delta: float):
+	attack_timer -= 1.2
+	if attack_timer <= 0:
+		if global_position.distance_to(player.global_position) < 300:
+			iniciar_ataque_aereo()
+
+func iniciar_ataque_aereo():
+	if not is_on_floor(): return
+	current_state = "NORMAL"
+	velocity.y = -400.0
+	await get_tree().create_timer(0.3).timeout
+	if player:
+		current_state = "AIR_ATTACK"
 
 func logica_embestida():
 	if not player: return
