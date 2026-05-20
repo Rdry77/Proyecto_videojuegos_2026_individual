@@ -16,7 +16,7 @@ extends CharacterBody2D
 var current_state = "NORMAL"
 var attack_timer = 2.0
 var turn_timer = 0.0
-var last_direction = -1
+var last_direction : float = -1.0 
 var strike_done = false
 
 # --- VARIABLES DE VIDA
@@ -34,20 +34,27 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor() and current_state != "AIR_ATTACK":
 		velocity += get_gravity() * delta
 
-	# --- Estados ---
-	match current_state:
-		"NORMAL":
-			perseguir_con_retraso(delta)
+	# Control de Muerte y Daño
+	if esta_muerto:
+		velocity.x = move_toward(velocity.x, 0, 10.0)
+	elif esta_herido:
+		velocity.x = move_toward(velocity.x, 0, 15.0)
+	else:
+		# SIEMPRE procesar el temporizador de ataque si está en NORMAL
+		if current_state == "NORMAL":
 			controlar_temporizador_ataques(delta)
-		"EMBESTIDA":
-			logica_embestida()
-		"AIR_ATTACK":
-			logica_picado_aereo()
-		"PRE_JUMP":
-			# Mientras sube, frenamos un poco el movimiento horizontal
-			velocity.x = move_toward(velocity.x, 0, 5.0)
-			if velocity.y > 0: # Si empieza a caer y no ha atacado, vuelve a normal
-				current_state = "NORMAL"
+			perseguir_con_retraso(delta)
+		
+		# Lógica de estados de ataque
+		match current_state:
+			"EMBESTIDA":
+				logica_embestida()
+			"AIR_ATTACK":
+				logica_picado_aereo()
+			"PRE_JUMP":
+				velocity.x = move_toward(velocity.x, 0, 5.0)
+				if velocity.y > 0: 
+					current_state = "NORMAL"
 
 	move_and_slide()
 	gestionar_animaciones()
@@ -100,6 +107,7 @@ func iniciar_ataque_aereo():
 	current_state = "PRE_JUMP"
 	velocity.y = JUMP_FORCE
 	strike_done = false
+	
 	
 	# Pausa en el aire antes del picado
 	await get_tree().create_timer(0.5).timeout
