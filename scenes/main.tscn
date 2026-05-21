@@ -196,7 +196,6 @@ max_value = 5.0
 value = 5.0
 
 [node name="GameOverLabel" type="Label" parent="CanvasLayer" unique_id=1717544539]
-visible = false
 offset_left = 415.0
 offset_top = 345.0
 offset_right = 816.0
@@ -211,7 +210,6 @@ scale = Vector2(0.112833634, 0.108646326)
 texture = ExtResource("2_sugp2")
 
 [node name="PanelDialogo" type="Panel" parent="CanvasLayer" unique_id=647677165]
-visible = false
 offset_left = 201.0
 offset_top = 523.0
 offset_right = 938.0

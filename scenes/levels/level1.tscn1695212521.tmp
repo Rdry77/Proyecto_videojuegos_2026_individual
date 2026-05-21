@@ -235,10 +235,16 @@ tile_map_data = PackedByteArray("AAAAAA4AAQABAAAAAAABAA4AAQABAAAAAAACAA4AAQABAAA
 tile_set = SubResource("TileSet_lgp48")
 
 [node name="Player" parent="." unique_id=956156386 groups=["enemigos"] instance=ExtResource("2_4tcl0")]
-position = Vector2(93, 300)
+position = Vector2(84.666664, 97.33331)
 
 [node name="Boquilla" type="Marker2D" parent="Player" unique_id=53689539]
 position = Vector2(180.66667, -44.666626)
 
 [node name="Enemy" parent="." unique_id=290546294 instance=ExtResource("7_2r1tl")]
 position = Vector2(1060, 538)
+SPEED_NORMAL = null
+SPEED_ATTACK = null
+SPEED_DIAGONAL = null
+JUMP_FORCE = null
+ATTACK_COOLDOWN = null
+TURN_DELAY = null

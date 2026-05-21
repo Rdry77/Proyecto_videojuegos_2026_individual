@@ -156,50 +156,55 @@ func logica_embestida():
 
 
 func logica_picado_aereo():
-	# 1. Si toca el suelo antes de alcanzar al Player, el ataque termina
 	if is_on_floor():
 		finalizar_ataque()
 		return
-
-	if player:
-		var distancia = global_position.distance_to(player.global_position)
 		
-		# 2. CAMBIO DE ANIMACIÓN POR CERCANÍA
-		# Solo si está a menos de 150 píxeles (puedes ajustar este número)
-		if distancia < 150.0:
-			if animated_sprite_2d.animation != "attackEnemy":
-				animated_sprite_2d.play("attackEnemy")
-				print("¡Enemigo lo suficientemente cerca, iniciando animación de ataque!")
+	var distancia = global_position.distance_to(player.global_position)
+	if distancia < 150.0 and animated_sprite_2d.animation != "attackEnemy":
+		animated_sprite_2d.play("attackEnemy")
 
-	# 3. DETECCIÓN DE COLISIÓN (DAÑO)
 	for i in get_slide_collision_count():
-		var collision = get_slide_collision(i)
-		if collision.get_collider().name == "Player" and not strike_done:
-			print("¡EL PLAYER RECIBIÓ IMPACTO DIAGONAL!")
-			strike_done = true
-			# Opcional: puedes hacer que el ataque termine justo al golpear
-			# finalizar_ataque()
+		var col = get_slide_collision(i)
+		if col.get_collider().name == "Player":
+			finalizar_ataque()
+			
+	for i in get_slide_collision_count():
+		var col = get_slide_collision(i)
+		var objeto = col.get_collider()
 		
+		if objeto.name == "Player":
+			if objeto.has_method("recibir_daño_enemigo"):
+				# Calculamos la dirección X del impacto aéreo
+				var dir_impacto = sign(velocity.x)
+				objeto.recibir_daño_enemigo(dir_impacto)
+			finalizar_ataque()
+
 func finalizar_ataque():
 	current_state = "NORMAL"
 	attack_timer = ATTACK_COOLDOWN
 	
 
 func recibir_golpe(direccion_ataque: float):
+	if esta_herido or esta_muerto: return 
 	vida -= 1
 	if vida <= 0:
 		morir(direccion_ataque)
 		return
-	
+
 	esta_herido = true
-	velocity.y = -150.0
+	velocity.y = -150.0 
 	velocity.x = direccion_ataque * 600.0 
 	animated_sprite_2d.play("enemyH")
-	animated_sprite_2d.flip_h = (direccion_ataque == 1)
+	# --- CAMBIO AQUÍ ---
+	# Si antes tenías == 1, prueba con == -1 (o viceversa)
+	# Esto hará que el enemigo mire hacia el lado correcto mientras retrocede
+	animated_sprite_2d.flip_h = (direccion_ataque == 1) 
+	
 	await get_tree().create_timer(0.4).timeout
 	esta_herido = false
 	current_state = "NORMAL"
-	last_direction = -sign(direccion_ataque) 
+	last_direction = -sign(direccion_ataque)
 
 func morir(direccion_ataque: float):
 	esta_muerto = true
@@ -238,15 +243,6 @@ func gestionar_animaciones():
 		animated_sprite_2d.flip_h = (last_direction == -1)
 		return # <--- IMPORTANTE: Salimos de la función aquí
 
-	
-	if (current_state == "EMBESTIDA" or current_state == "AIR_ATTACK"):
-		var distancia = global_position.distance_to(player.global_position)
-		# Si ya estamos muy cerca, aseguramos que se quede en attackEnemy
-		if distancia < 100.0:
-			if animated_sprite_2d.animation != "attackEnemy":
-				animated_sprite_2d.play("attackEnemy")
-			animated_sprite_2d.flip_h = (last_direction == -1)
-			return
 
 	if not is_on_floor():
 		animated_sprite_2d.play("enemyJump")

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cjubpmdrw5c0y"]
 
-[ext_resource type="Script" uid="uid://buvur2qpesq3v" path="res://scripts/enemy_main.gd" id="1_1mxn2"]
+[ext_resource type="Script" uid="uid://b4wyssyrfar2g" path="res://scripts/enemy_main.gd" id="1_1mxn2"]
 [ext_resource type="Texture2D" uid="uid://dhjvhwie58bn5" path="res://assets/images/mainEnemy/mainEnemyAttack1.png" id="1_axcvn"]
 [ext_resource type="Texture2D" uid="uid://dhyq4k0i7whqp" path="res://assets/images/mainEnemy/mainEnemyAttack2.png" id="2_1mxn2"]
 [ext_resource type="Texture2D" uid="uid://d1xggrmbjdgc3" path="res://assets/images/mainEnemy/mainEnemyAttack3.png" id="3_6355y"]
