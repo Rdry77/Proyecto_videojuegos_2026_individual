@@ -82,9 +82,11 @@ func _physics_process(delta: float) -> void:
 			if direction > 0:
 				animated_sprite_2d.flip_h = false
 				boquilla.position.x = abs(boquilla.position.x)
+				$AtaqueArea.scale.x = 1
 			elif direction < 0:
 				animated_sprite_2d.flip_h = true
 				boquilla.position.x = -abs(boquilla.position.x)
+				$AtaqueArea.scale.x = -1
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 	else:
@@ -222,5 +224,6 @@ func morir_player():
 func _on_ataque_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("enemigos"):
 		var dir_empuje = -1 if animated_sprite_2d.flip_h else 1
+		print(dir_empuje)
 		if body.has_method("recibir_golpe"):
 			body.recibir_golpe(dir_empuje)
