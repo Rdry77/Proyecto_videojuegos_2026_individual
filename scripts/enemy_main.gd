@@ -16,6 +16,7 @@ var current_state = "NORMAL"
 var attack_timer = 1.0
 var turn_timer = 0.0
 var last_direction : float = -1.0 
+var vida = 3
 var esta_herido = false
 var esta_muerto = false
 
@@ -106,6 +107,25 @@ func finalizar_ataque():
 	current_state = "NORMAL"
 	attack_timer = ATTACK_COOLDOWN
 	
+func recibir_golpe(direccion_ataque: float):
+	if esta_herido or esta_muerto: return 
+	vida -= 1
+	if vida <= 0:
+		morir_jefe(direccion_ataque)
+		return
+	esta_herido = true
+	animated_sprite_2d.play("mainEnemyH")
+	animated_sprite_2d.flip_h = (direccion_ataque == 1) 
+	velocity.x = direccion_ataque * 800.0 # Menos retroceso (es pesado)
+	await get_tree().create_timer(0.3).timeout
+	esta_herido = false
+
+func morir_jefe(dir: float):
+	esta_muerto = true
+	animated_sprite_2d.play("mainEnemyLose")
+	animated_sprite_2d.flip_h = (dir == -1)
+	print("¡EL JEFE FINAL HA CAÍDO!")
+
 func logica_picado_aereo():
 	if is_on_floor(): finalizar_ataque()
 	for i in get_slide_collision_count():
