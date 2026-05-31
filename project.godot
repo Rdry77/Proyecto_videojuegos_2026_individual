@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="ProyectoVideojuego"
+run/main_scene="uid://c6pov35y5gb17"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
