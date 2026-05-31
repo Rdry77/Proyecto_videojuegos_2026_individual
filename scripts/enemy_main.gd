@@ -16,7 +16,7 @@ var current_state = "NORMAL"
 var attack_timer = 1.0
 var turn_timer = 0.0
 var last_direction : float = -1.0 
-var vida = 3
+var vida = 10
 var esta_herido = false
 var esta_muerto = false
 

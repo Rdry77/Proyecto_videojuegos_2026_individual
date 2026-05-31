@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://bkkrr4g52pcgc" path="res://assets/images/Player/static-l.png" id="5_y4r1p"]
 [ext_resource type="Texture2D" uid="uid://dh346o6mg3xmc" path="res://assets/images/Player/attack3.png" id="6_jej6c"]
 [ext_resource type="Texture2D" uid="uid://cfrlxgods57q" path="res://assets/images/Player/playerRunR2.png" id="6_y4r1p"]
+[ext_resource type="Texture2D" uid="uid://crtaf5gco8fe1" path="res://assets/images/Player/playerDead.png" id="7_f1ej7"]
 [ext_resource type="Texture2D" uid="uid://dwklcpuvpe4tf" path="res://assets/images/Player/playerStaticR.png" id="8_smehm"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_3v2ag"]
@@ -50,6 +51,14 @@ animations = [{
 }],
 "loop": false,
 "name": &"attackDiag",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_f1ej7")
+}],
+"loop": true,
+"name": &"dead",
 "speed": 5.0
 }, {
 "frames": [{
@@ -112,7 +121,7 @@ script = ExtResource("1_fjrip")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1216009040]
 sprite_frames = SubResource("SpriteFrames_3v2ag")
-animation = &"fall"
+animation = &"dead"
 autoplay = "run-r"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=882817251]

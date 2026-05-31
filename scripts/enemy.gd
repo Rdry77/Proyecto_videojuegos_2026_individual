@@ -30,7 +30,13 @@ func _init():
 	last_direction = -1.0
 
 func _physics_process(delta: float) -> void:
-	# Add the gravity.
+	print(position.y)
+	if position.y <= 500.0 and is_on_floor():
+		print("la posicion llego a 450:")
+		current_state = "PRE_JUMP"
+		velocity.y = JUMP_FORCE
+
+
 	if not is_on_floor() and current_state != "AIR_ATTACK":
 		velocity += get_gravity() * delta
 
